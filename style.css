@@ -369,7 +369,7 @@ body::-webkit-scrollbar{
     background-color: #1ebd5a;
   }
    
-  @media screen and (max-width: 400px) {
+  @media screen and (max-width: 600px) {
     .background{
       position: relative;
       bottom: 15px;
