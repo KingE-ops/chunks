@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Interactive Button</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #f0f0f0;
+    }
+
+    .btn {
+      position: relative;
+      padding: 12px 24px;
+      background-color: #008cba;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      overflow: hidden;
+      transition: background 0.3s;
+    }
+
+    .btn:hover {
+      background-color: #0072a3;
+    }
+
+    .btn .spinner {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border: 3px solid #fff;
+      border-top: 3px solid transparent;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: none;
+    }
+
+    @keyframes spin {
+      to { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+
+    .btn.success {
+      background-color: #28a745;
+    }
+
+    .btn.success::after {
+      content: "✔ Done";
+    }
+
+    .btn.loading .text {
+      visibility: hidden;
+    }
+
+    .btn.loading .spinner {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <button class="btn" id="actionBtn">
+    <span class="text">Get Quote</span>
+    <span class="spinner"></span>
+    <a href="./create-account.html"></a>
+  </button>
+
+  <script>
+    const button = document.getElementById('actionBtn');
+
+    button.addEventListener('click', () => {
+      // Prevent spamming
+      if (button.classList.contains('loading')) return;
+
+      button.classList.add('loading');
+      button.querySelector('.text').textContent = 'Processing...';
+
+      // Simulate async task (e.g., fetching quote)
+      setTimeout(() => {
+        button.classList.remove('loading');
+        button.classList.add('success');
+        button.innerHTML = '✔ Done';
+      }, 2500);
+    });
+  </script>
+
+</body>
+</html>

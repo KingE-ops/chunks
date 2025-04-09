@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Solar Power Co.</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+      color: #333;
+    }
+
+    header {
+      background-color: #1e3a8a;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.5em;
+    }
+
+    nav ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    nav ul li {
+      display: inline;
+      margin-right: 20px;
+    }
+
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-size: 1.1em;
+    }
+
+    nav ul li a:hover {
+      text-decoration: underline;
+    }
+
+    section {
+      padding: 50px 20px;
+      text-align: center;
+    }
+
+    section#home {
+      background-color: #fff7e6;
+      padding: 80px 20px;
+    }
+
+    section#home h2 {
+      font-size: 3em;
+      margin-bottom: 20px;
+    }
+
+    section#home button {
+      background-color: #1e3a8a;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+      font-size: 1.1em;
+    }
+
+    section#home button:hover {
+      background-color: #0e2a5e;
+    }
+
+    section#products {
+      background-color: #e6f7ff;
+    }
+
+    .product-list {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+
+    .product {
+      background-color: white;
+      padding: 20px;
+      width: 250px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .product h3 {
+      font-size: 1.5em;
+      margin: 10px 0;
+    }
+
+    .product p {
+      font-size: 1.1em;
+      color: #555;
+    }
+
+    .product button {
+      background-color: #1e3a8a;
+      color: white;
+      padding: 10px;
+      border: none;
+      cursor: pointer;
+      font-size: 1em;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .product button:hover {
+      background-color: #0e2a5e;
+    }
+
+    section#services,
+    section#education,
+    section#contact {
+      background-color: #fff;
+    }
+
+    section h2 {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+      color: #1e3a8a;
+    }
+
+    section#contact form {
+      max-width: 500px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    section#contact input,
+    section#contact textarea {
+      padding: 10px;
+      font-size: 1em;
+      width: 100%;
+      border: 2px solid #ddd;
+      border-radius: 5px;
+    }
+
+    section#contact button {
+      background-color: #1e3a8a;
+      color: white;
+      padding: 15px;
+      border: none;
+      cursor: pointer;
+      font-size: 1.1em;
+    }
+
+    section#contact button:hover {
+      background-color: #0e2a5e;
+    }
+
+    footer {
+      background-color: #1e3a8a;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      position: fixed;
+      width: 100%;
+      bottom: 0;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <h1>Solar Power Co.</h1>
+    <nav>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#products">Products</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#education">Education</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Home Section -->
+  <section id="home">
+    <h2>Power Your Future with Solar</h2>
+    <p>Save money and the planet with our solar solutions.</p>
+    <button onclick="scrollToSection('products')">Shop Now</button>
+  </section>
+
+  <!-- Products Section -->
+  <section id="products">
+    <h2>Our Products</h2>
+    <div class="product-list">
+      <div class="product">
+        <h3>Solar Panel 300W</h3>
+        <p>$199.99</p>
+        <button>Add to Cart</button>
+      </div>
+      <div class="product">
+        <h3>Inverter 5kW</h3>
+        <p>$799.99</p>
+        <button>Add to Cart</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section id="services">
+    <h2>Installation & Services</h2>
+    <p>We provide professional installation and maintenance services nationwide.</p>
+  </section>
+
+  <!-- Education Section -->
+  <section id="education">
+    <h2>Learn About Solar</h2>
+    <ul>
+      <li><a href="#">Why Go Solar?</a></li>
+      <li><a href="#">Government Incentives</a></li>
+      <li><a href="#">Maintenance Tips</a></li>
+    </ul>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact">
+    <h2>Contact Us</h2>
+    <form>
+      <input type="text" placeholder="Your Name" required />
+      <input type="email" placeholder="Your Email" required />
+      <textarea placeholder="Your Message" required></textarea>
+      <button type="submit">Send</button>
+    </form>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Solar Power Co. All rights reserved.</p>
+  </footer>
+
+  <script>
+    function scrollToSection(id) {
+      document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>
+

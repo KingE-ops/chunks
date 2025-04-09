@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 18px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Welcome to Our Website</h2>
+        <p>You are on the website. You will be redirected to sign in after 20 seconds if not logged in.</p>
+        <button class="btn" onclick="redirectToSignIn()">Go to Sign-In</button>
+    </div>
+
+    <script>
+        // Function to check if user is logged in
+        function checkLoginStatus() {
+            const username = localStorage.getItem('username');
+            const password = localStorage.getItem('password');
+
+            // If the user is not logged in (no credentials in localStorage), redirect them to sign-in page
+            if (!username || !password) {
+                window.location.href = 'signin.html';
+            }
+        }
+
+        // Redirect to Sign-In after 20 seconds
+        setTimeout(() => {
+            alert('You have not signed in yet. Redirecting to Sign-In page...');
+            window.location.href = 'signin.html';
+        }, 20000); // 20000 milliseconds = 20 seconds
+
+        // Button to manually redirect to sign-in page
+        function redirectToSignIn() {
+            window.location.href = 'signin.html';
+        }
+
+        // Check login status as soon as the page loads
+        checkLoginStatus();
+    </script>
+
+</body>
+</html>

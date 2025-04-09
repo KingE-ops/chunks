@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Next-Level Functional Button</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f4f8;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .btn {
+            padding: 20px 40px;
+            font-size: 18px;
+            background-color: #FF6F61;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #FF4A3F;
+            transform: scale(1.1);
+        }
+
+        .btn:active {
+            background-color: #FF3C33;
+        }
+
+        .message {
+            font-size: 18px;
+            margin-top: 20px;
+            display: none;
+            transition: opacity 0.5s ease;
+        }
+
+        .data-section {
+            margin-top: 30px;
+            padding: 15px;
+            background-color: #fff;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+
+        .data-item {
+            font-size: 16px;
+            margin: 8px 0;
+            color: #333;
+        }
+
+        .loading {
+            font-size: 18px;
+            color: #FF6F61;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <button class="btn" onclick="buttonClick()">Start Action</button>
+        <p id="message" class="message"></p>
+        <div id="dataSection" class="data-section">
+            <p class="loading" id="loadingMessage">Loading data...</p>
+            <div id="dataContent"></div>
+        </div>
+    </div>
+
+    <script>
+        let clickCount = 0;
+
+        // Mock data function to simulate data fetching
+        function fetchData() {
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    resolve([
+                        { name: 'Solar Panel Model A', efficiency: '20%' },
+                        { name: 'Solar Panel Model B', efficiency: '18%' },
+                        { name: 'Solar Panel Model C', efficiency: '22%' }
+                    ]);
+                }, 2000); // Simulating a 2-second fetch delay
+            });
+        }
+
+        function buttonClick() {
+            clickCount++;
+            const button = document.querySelector('.btn');
+            const message = document.getElementById('message');
+            const dataSection = document.getElementById('dataSection');
+            const loadingMessage = document.getElementById('loadingMessage');
+            const dataContent = document.getElementById('dataContent');
+
+            // Change the button text dynamically based on click count
+            if (clickCount % 2 === 0) {
+                button.textContent = 'Fetching Data...';
+                button.disabled = true;
+            } else {
+                button.textContent = 'Start Action';
+                button.disabled = false;
+            }
+
+            // Show a message with click count
+            message.textContent = `Button clicked ${clickCount} times.`;
+            message.style.display = 'block';
+
+            // Fetch mock data after 2 seconds
+            if (clickCount % 2 === 0) {
+                dataSection.style.display = 'block';
+                fetchData().then(data => {
+                    loadingMessage.style.display = 'none';
+                    dataContent.innerHTML = data.map(item => {
+                        return `<p class="data-item"><strong>${item.name}</strong> - Efficiency: ${item.efficiency}</p>`;
+                    }).join('');
+                });
+            } else {
+                dataSection.style.display = 'none';
+                loadingMessage.style.display = 'block';
+            }
+
+            // Add animation on button click
+            button.style.transform = 'scale(1.2)';
+            setTimeout(() => {
+                button.style.transform = 'scale(1)';
+            }, 300);
+        }
+    </script>
+
+</body>
+</html>
