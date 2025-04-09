@@ -375,21 +375,21 @@ body::-webkit-scrollbar{
       bottom: 15px;
       right: 10px;
       background: url(./image/nuno-marques-0GbrjL3vZF4-unsplash.jpg);
-      width: 320px;
+      width: 400px;
       border-radius: 10px;
       height: 400px;
       background-position: center;
       background-size: cover;
     }
     body{
-      background-color: transparent;
+      background-color: rgba(2, 2, 118, 0.879);
     }
     .div{
       padding: 15px;
     }
     .ul{
       position: relative;
-      right: 20px;
+      right: 25px;
       font-size: 10px;
       gap: 55px;
     }
@@ -398,7 +398,7 @@ body::-webkit-scrollbar{
       right: 30px;
     }
     .power{
-      font-size: 45px;
+      font-size: 55px;
       color: white;
     }
     .solar{
@@ -412,7 +412,7 @@ body::-webkit-scrollbar{
     .enoch{
       position: relative;
       top: 180px;
-      right: 810px;
+      right: 777px;
     }
     .now{
       width: 110px;
@@ -457,6 +457,21 @@ body::-webkit-scrollbar{
 
     .box-3{
       display: none;
+    }
+    #chat-body{
+      position: relative;
+      left: 25px;
+      height: 200px;
+      width: 150px;
+    }
+    #chat-header{
+      position: relative;
+      left: 25px;
+      width: 133px;
+    }
+    .whatsapp-float{
+      position: fixed;
+      right: 40px;
     }
   
   }
