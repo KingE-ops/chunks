@@ -622,6 +622,16 @@ body::-webkit-scrollbar{
         flex-direction: column;
         align-items: center;
       }
+
+      .service-card {
+        background: #ffffff;
+        border-radius: 25px;
+        padding: 35px 25px;
+        width: 270px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        transition: transform 0.4s ease, box-shadow 0.4s ease;
+        perspective: 1000px;
+      }
     }
 
 
@@ -787,6 +797,28 @@ body::-webkit-scrollbar{
         flex-direction: column;
         text-align: center;
       }
+
+      .contact-form input,
+      .contact-form textarea {
+        width: 70%;
+        padding: 12px 15px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        font-size: 1rem;
+        resize: none;
+      }
+
+      .contact-form {
+        background-color: #ffffff;
+        padding: 30px;
+        border-radius: 20px;
+        max-width: 400px;
+        width: 70%;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      }
+      
+      
     }
     
 
@@ -1017,7 +1049,8 @@ body::-webkit-scrollbar{
       background-size: cover;
     }
     body{
-      background-color: rgba(2, 2, 118, 0.879);
+      background-color: #b5edf5;
+      /* background-color: rgba(2, 2, 118, 0.879); */
     }
     .div{
       padding: 15px;
