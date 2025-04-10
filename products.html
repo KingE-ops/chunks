@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products - Solar Solutions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #121212;
+            color: #f0f0f0;
+            line-height: 1.6;
+            padding-top: 60px;
+        }
+
+        h1, h2 {
+            color: #00bcd4;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            background: #00bcd4;
+            padding: 10px 0;
+            z-index: 1000;
+            text-align: center;
+        }
+
+        .navbar ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+        }
+
+        .navbar ul li {
+            margin: 0 15px;
+        }
+
+        .navbar ul li a {
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* Products Section */
+        #products {
+            padding: 80px 20px;
+            background-color: #1c1c1c;
+            text-align: center;
+        }
+
+        .products-heading h2 {
+            font-size: 3.5rem;
+            color: #00bcd4;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .product-card {
+            background-color: #444;
+            color: white;
+            margin: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            width: 300px;
+            display: inline-block;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .product-card img {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .product-card h3 {
+            font-size: 1.8rem;
+            color: #00bcd4;
+            margin-bottom: 10px;
+        }
+
+        .product-card p {
+            font-size: 1rem;
+            color: #ddd;
+            margin-bottom: 20px;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
+            background-color: #555;
+        }
+
+        .product-card:hover h3 {
+            color: #e0f7fa;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            background-color: #00bcd4;
+        }
+
+        footer p {
+            color: white;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <ul>
+            <li><a href="#products">Products</a></li>
+        </ul>
+    </div>
+
+    <!-- Products Section -->
+    <section id="products">
+        <h2>Our Products</h2>
+        <div class="product-card" onclick="contactViaWhatsApp('Solar Panel 250W', 'Efficient and durable solar panels for your energy needs.', '$200')">
+            <img src="https://via.placeholder.com/300x200" alt="Product 1">
+            <h3>Solar Panel 250W</h3>
+            <p>Efficient and durable solar panels for your energy needs.</p>
+        </div>
+        <div class="product-card" onclick="contactViaWhatsApp('Solar Inverter 5kW', 'Convert solar power into usable electricity with our inverter.', '$500')">
+            <img src="https://via.placeholder.com/300x200" alt="Product 2">
+            <h3>Solar Inverter 5kW</h3>
+            <p>Convert solar power into usable electricity with our inverter.</p>
+        </div>
+        <div class="product-card" onclick="contactViaWhatsApp('Solar Battery 10kWh', 'Store excess solar energy for use during non-sunny hours.', '$1000')">
+            <img src="https://via.placeholder.com/300x200" alt="Product 3">
+            <h3>Solar Battery 10kWh</h3>
+            <p>Store excess solar energy for use during non-sunny hours.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 Solar Solutions. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function contactViaWhatsApp(productName, productDescription, productPrice) {
+            const phoneNumber = '+23409021475250'; // Replace with your WhatsApp number
+            const message = `Hello, I am interested in the ${productName}. 
+                            \nDescription: ${productDescription} 
+                            \nPrice: ${productPrice} 
+                            \nCan you provide more details?`;
+            window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, '_blank');
+        }
+    </script>
+
+</body>
+</html>
