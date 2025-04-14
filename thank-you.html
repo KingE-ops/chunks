@@ -14,7 +14,8 @@
     
     body {
       font-family: Arial, sans-serif;
-      background: #fff;
+      background: linear-gradient(to bottom, #ff7e00, #ffb400, #ff4040);
+      /* background: linear-gradient(rgb(132, 10, 10), blue, white, green); */
       color: #333;
       overflow-x: hidden;
     }
@@ -38,7 +39,8 @@
       position: fixed;
       top: 20px;
       right: 20px;
-      background-color: #1e1e1e;
+      /* background-color: #1e1e1e; */
+      background-color: transparent;
       color: white;
       border-radius: 50%;
       padding: 10px;
@@ -56,10 +58,11 @@
 
     .product-card {
       width: 250px;
-      background: #f9f9f9;
-      border: 1px solid #ccc;
+      /* background: #f9f9f9; */
+      background: transparent;
+      /* border: 1px solid #ccc; */
       border-radius: 10px;
-      margin: 10px;
+      margin: 50px;
       overflow: hidden;
       box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -108,7 +111,7 @@
     /* Media queries for responsiveness */
     @media (max-width: 768px) {
       .product-card {
-        width: 45%;
+        width: 42%;
       }
     }
 
@@ -118,7 +121,7 @@
       }
       .cart-icon {
         top: 10px;
-        right: 10px;
+        right: -10px;
         font-size: 18px;
       }
     }
@@ -160,7 +163,7 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      background: rgba(0, 0, 0, 0.7);
+      background: rgba(0, 0, 0, 0.941);
       color: white;
       padding: 20px;
       border-radius: 5px;
@@ -183,7 +186,7 @@
 </head>
 <body>
 
-  <div class="navbar">Solar Products</div>
+  <div class="navbar">Remo-Solar-Products</div>
   
   <!-- Cart Icon -->
   <div class="cart-icon" id="cartIcon">🛒 <span id="cartCount">0</span></div>
@@ -210,13 +213,13 @@
     // Products data (Grouped as per your categories)
     const products = [
       // Inverters / Controllers
-      { name: 'Smarten 1kva', price: 118000, category: 'Inverters/Controllers' },
-      { name: 'Smarten 1.5kva/12v', price: 120000, category: 'Inverters/Controllers' },
-      { name: 'Smarten 2kva/24v', price: 195000, category: 'Inverters/Controllers' },
-      { name: 'Smarten 2.5kVA/24v', price: 265000, category: 'Inverters/Controllers' },
-      { name: 'Smarten 2675/24v hybrid', price: 270000, category: 'Inverters/Controllers' },
-      { name: 'Smarten 3.2kva/24v', price: 295000, category: 'Inverters/Controllers' },
-      { name: 'AFRIPOWER Inverter', price: 200000, category: 'Inverters/Controllers' },
+      { name: 'Smarten 1kva', price: 118000, category: 'Inverters/Controllers', image: 'smarten-1kva.png' },
+      { name: 'Smarten 1.5kva/12v', price: 120000, category: 'Inverters/Controllers', image: 'smarten-1.5kva.png' },
+      { name: 'Smarten 2kva/24v', price: 195000, category: 'Inverters/Controllers',  image: 'smarten-2kva.png'},
+      { name: 'Smarten 2.5kVA/24v', price: 265000, category: 'Inverters/Controllers',  image: 'smarten 2.5kva24v.png' },
+      { name: 'Smarten 2675/24v hybrid', price: 270000, category: 'Inverters/Controllers',  image: 'smarten.png'},
+      { name: 'Smarten 3.2kva/24v', price: 295000, category: 'Inverters/Controllers', image: 'smartenai.png' },
+      { name: 'AFRIPOWER Inverter', price: 200000, category: 'Inverters/Controllers',  image: 'smartenafri.png' },
       { name: 'Rayinverter 3kva hybrid', price: 330000, category: 'Inverters/Controllers' },
       { name: 'Luminous Hybrid 1.5kva', price: 245000, category: 'Inverters/Controllers' },
       { name: 'Mercury 2.4kva', price: 190000, category: 'Inverters/Controllers' },
@@ -259,23 +262,28 @@
 
     // Render product cards
     function createProductCards() {
-      const container = document.getElementById('productContainer');
-      container.innerHTML = '';
-      
-      products.forEach(product => {
-        const productCard = document.createElement('div');
-        productCard.classList.add('product-card');
-        productCard.innerHTML = `
-          <img src="./image/ChatGPT Image-1.png" alt="${product.name1}">
-          <div class="product-info">
-            <h3>${product.name}</h3>
-            <p>₦${product.price}</p>
-            <button class="add-to-cart-btn" onclick="addToCart('${product.name}', ${product.price})">Add to Cart</button>
-          </div>
-        `;
-        container.appendChild(productCard);
-      });
-    }
+  const container = document.getElementById('productContainer');
+  container.innerHTML = '';
+  
+  products.forEach(product => {
+    const productCard = document.createElement('div');
+    productCard.classList.add('product-card');
+    
+    // Adjust the path to the 'image' folder
+    const imageSrc = product.image ? `./image/${product.image}` : './image/default-image.png';
+    
+    productCard.innerHTML = `
+      <img src="${imageSrc}" alt="${product.name}">
+      <div class="product-info">
+        <h3>${product.name}</h3>
+        <p>₦${product.price}</p>
+        <button class="add-to-cart-btn" onclick="addToCart('${product.name}', ${product.price})">Add to Cart</button>
+      </div>
+    `;
+    
+    container.appendChild(productCard);
+  });
+}
 
     // Add product to cart
     let cart = [];
@@ -307,5 +315,4 @@
   </script>
 
 </body>
-<!-- <img src="./image/ChatGPT Image-1.png" alt=""> -->
 </html>

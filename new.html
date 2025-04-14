@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solar Products Cart</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, #ff7e00, #ffb400, #ff4040);
+      color: #333;
+      overflow-x: hidden;
+    }
+
+    h1, h2 {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .navbar {
+      background-color: #1e1e1e;
+      color: white;
+      padding: 10px 0;
+      text-align: center;
+      font-size: 20px;
+    }
+
+    .cart-icon {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: transparent;
+      color: white;
+      border-radius: 50%;
+      padding: 10px;
+      cursor: pointer;
+      font-size: 20px;
+      z-index: 100;
+    }
+
+    .cart-dropdown {
+      position: fixed;
+      top: 60px;
+      right: 20px;
+      background: #fff;
+      color: #000;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      width: 300px;
+      max-height: 400px;
+      overflow-y: auto;
+      display: none;
+      z-index: 99;
+    }
+
+    .cart-dropdown.active {
+      display: block;
+    }
+
+    .cart-dropdown h3 {
+      text-align: center;
+      padding: 10px 0;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .cart-item {
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #eee;
+    }
+
+    .cart-item button {
+      background: #ff4747;
+      color: #fff;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+
+    .product-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 30px 0;
+    }
+
+    .product-card {
+      width: 250px;
+      background: transparent;
+      border-radius: 10px;
+      margin: 50px;
+      overflow: hidden;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .product-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .product-card img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+    }
+
+    .product-info {
+      padding: 10px;
+      text-align: center;
+    }
+
+    .product-info h3 {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .product-info p {
+      font-size: 16px;
+      color: #555;
+    }
+
+    .add-to-cart-btn {
+      background-color: #1e1e1e;
+      color: white;
+      padding: 10px;
+      border: none;
+      width: 100%;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .add-to-cart-btn:hover {
+      background-color: #333;
+    }
+
+    @media (max-width: 768px) {
+      .product-card {
+        width: 42%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .product-card {
+        width: 90%;
+      }
+      .cart-icon {
+        top: 10px;
+        right: -10px;
+        font-size: 18px;
+      }
+    }
+
+    .popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0, 0, 0, 0.941);
+      color: white;
+      padding: 20px;
+      border-radius: 5px;
+      display: none;
+      z-index: 1000;
+    }
+
+    .popup.active {
+      display: block;
+    }
+
+    .popup button {
+      background-color: #ff4747;
+      color: white;
+      padding: 10px;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="navbar">Remo-Solar-Products</div>
+
+  <div class="cart-icon" id="cartIcon">🛒 <span id="cartCount">0</span></div>
+  <div class="cart-dropdown" id="cartDropdown">
+    <h3>Cart Items</h3>
+    <div id="cartItems"></div>
+    <div style="padding: 10px; font-weight: bold;">Total: ₦<span id="cartTotal">0</span></div>
+  </div>
+
+  <div class="product-container" id="productContainer"></div>
+
+  <div class="popup" id="popupAlert">
+    <p>Product added to cart!</p>
+    <button onclick="closePopup()">Close</button>
+  </div>
+
+  <script>
+    const cartIcon = document.getElementById("cartIcon");
+    const cartDropdown = document.getElementById("cartDropdown");
+    const cartItemsContainer = document.getElementById("cartItems");
+
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    function saveCart() {
+      localStorage.setItem("cart", JSON.stringify(cart));
+    }
+
+    function renderCart() {
+      cartItemsContainer.innerHTML = "";
+      let total = 0;
+      cart.forEach((item, index) => {
+        const div = document.createElement("div");
+        div.classList.add("cart-item");
+        div.innerHTML = `
+          ${item.name} (₦${item.price})
+          <button onclick="removeFromCart(${index})">Remove</button>
+        `;
+        cartItemsContainer.appendChild(div);
+        total += item.price;
+      });
+      document.getElementById("cartTotal").innerText = total;
+      document.getElementById("cartCount").innerText = cart.length;
+    }
+
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      saveCart();
+      renderCart();
+    }
+
+    function addToCart(name, price) {
+      cart.push({ name, price });
+      saveCart();
+      renderCart();
+      showPopup();
+    }
+
+    function showPopup() {
+      const popup = document.getElementById("popupAlert");
+      popup.classList.add("active");
+      setTimeout(() => popup.classList.remove("active"), 2000);
+    }
+
+    function closePopup() {
+      document.getElementById("popupAlert").classList.remove("active");
+    }
+
+    cartIcon.addEventListener("click", () => {
+      cartDropdown.classList.toggle("active");
+    });
+
+    const products = [
+      { name: 'Glow Energy 2.5kva/24v', price: 255000, category: 'Inverters/Controllers', image: 'glow.png' }
+    ];
+
+    function createProductCards() {
+      const container = document.getElementById('productContainer');
+      container.innerHTML = '';
+
+      products.forEach(product => {
+        const productCard = document.createElement('div');
+        productCard.classList.add('product-card');
+        const imageSrc = product.image ? `./image/${product.image}` : './image/default-image.png';
+        productCard.innerHTML = `
+          <img src="${imageSrc}" alt="${product.name}">
+          <div class="product-info">
+            <h3>${product.name}</h3>
+            <p>₦${product.price}</p>
+            <button class="add-to-cart-btn" onclick="addToCart('${product.name}', ${product.price})">Add to Cart</button>
+          </div>
+        `;
+        container.appendChild(productCard);
+      });
+    }
+
+    createProductCards();
+    renderCart();
+  </script>
+</body>
+</html>

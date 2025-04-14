@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Solar Products Cart</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, #ff7e00, #ffb400, #ff4040);
+      color: #333;
+      overflow-x: hidden;
+    }
+
+    h1, h2 { text-align: center; margin-top: 20px; }
+
+    .navbar {
+      background-color: #1e1e1e;
+      color: white;
+      padding: 10px 0;
+      text-align: center;
+      font-size: 20px;
+    }
+
+    .cart-icon {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: transparent;
+      color: white;
+      border-radius: 50%;
+      padding: 10px;
+      cursor: pointer;
+      font-size: 20px;
+      z-index: 1001;
+    }
+
+    .product-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 30px 0;
+    }
+
+    .product-card {
+      width: 250px;
+      background: transparent;
+      border-radius: 10px;
+      margin: 50px;
+      overflow: hidden;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .product-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .product-card img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+    }
+
+    .product-info {
+      padding: 10px;
+      text-align: center;
+    }
+
+    .product-info h3 { font-size: 18px; margin-bottom: 10px; }
+
+    .product-info p { font-size: 16px; color: #555; }
+
+    .add-to-cart-btn {
+      background-color: #1e1e1e;
+      color: white;
+      padding: 10px;
+      border: none;
+      width: 100%;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .add-to-cart-btn:hover {
+      background-color: #333;
+    }
+
+    @media (max-width: 768px) {
+      .product-card { width: 42%; }
+    }
+
+    @media (max-width: 480px) {
+      .product-card { width: 90%; }
+      .cart-icon { top: 10px; right: -10px; font-size: 18px; }
+    }
+
+    .checkout {
+      max-width: 900px;
+      margin: 50px auto;
+      padding: 10px;
+      background: #a00b0b;
+      cursor: pointer;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 7px;
+    }
+
+    .checkout h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .checkout-summary {
+      border-top: 1px solid #ddd;
+      padding-top: 20px;
+    }
+
+    .checkout-summary p {
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+
+    .checkout-summary .total {
+      font-weight: bold;
+      font-size: 18px;
+      margin-top: 20px;
+    }
+
+    .popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0, 0, 0, 0.941);
+      color: white;
+      padding: 20px;
+      border-radius: 5px;
+      display: none;
+      z-index: 1000;
+    }
+
+    .popup.active { display: block; }
+
+    .popup button {
+      background-color: #ff4747;
+      color: white;
+      padding: 10px;
+      border: none;
+      cursor: pointer;
+    }
+
+    /* Cart dropdown styles */
+    .cart-dropdown {
+      position: fixed;
+      top: 65px;
+      right: 20px;
+      width: 300px;
+      background-color: white;
+      color: black;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      padding: 15px;
+      display: none;
+      z-index: 1001;
+    }
+
+    .cart-dropdown h3 {
+      font-size: 18px;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 5px;
+    }
+
+    .cart-dropdown ul {
+      list-style: none;
+      padding: 0;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .cart-dropdown li {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 5px;
+      font-size: 14px;
+    }
+
+    .cart-dropdown li button {
+      background: crimson;
+      color: white;
+      border: none;
+      padding: 4px 6px;
+      font-size: 12px;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    .cart-dropdown .total-price {
+      text-align: right;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="navbar">Remo-Solar-Products</div>
+  <div class="cart-icon" id="cartIcon">🛒 <span id="cartCount">0</span></div>
+
+  <!-- Cart dropdown -->
+  <div class="cart-dropdown" id="cartDropdown">
+    <h3>Cart Items</h3>
+    <ul id="cartItemsList"></ul>
+    <p class="total-price">Total: ₦<span id="cartTotal">0</span></p>
+   <button class="checkout">
+   <a href=""> Check-Out</a>
+   </button>
+  </div>
+
+  <!-- Product Container -->
+  <div class="product-container" id="productContainer"></div>
+
+  <!-- Popup Alert -->
+  <div class="popup" id="popupAlert">
+    <p>Product added to cart!</p>
+    <button onclick="closePopup()">Close</button>
+  </div>
+
+  <!-- Checkout Section -->
+  <div class="checkout" id="checkoutPage" style="display:none;">
+    <h2>Checkout</h2>
+    <div class="checkout-summary">
+      <p><strong>Items in Cart:</strong> <span id="cartItemsCount">0</span></p>
+      <p><strong>Total Price:</strong> <span id="totalPrice">0</span></p>
+    </div>
+  </div>
+
+  <script>
+    const products = [
+    //   { name: 'Glow Energy 2.5kva/24v', price: 255000, category: 'Inverters/Controllers', image: 'smarten.png' }
+      { name: 'Smarten 1kva', price: 118000, category: 'Inverters/Controllers', image: 'smarten-1kva.png' },
+      { name: 'Smarten 1.5kva/12v', price: 120000, category: 'Inverters/Controllers', image: 'smarten-1.5kva.png' },
+      { name: 'Smarten 2kva/24v', price: 195000, category: 'Inverters/Controllers',  image: 'smarten-2kva.png'},
+      { name: 'Smarten 2.5kVA/24v', price: 265000, category: 'Inverters/Controllers',  image: 'smarten 2.5kva24v.png' },
+      { name: 'Smarten 2675/24v hybrid', price: 270000, category: 'Inverters/Controllers',  image: 'smarten.png'},
+      { name: 'Smarten 3.2kva/24v', price: 295000, category: 'Inverters/Controllers', image: 'smartenai.png' },
+      { name: 'AFRIPOWER Inverter', price: 200000, category: 'Inverters/Controllers',  image: 'smartenafri.png' },
+      { name: 'Rayinverter 3kva hybrid', price: 330000, category: 'Inverters/Controllers', image: '1-11.jpg' },
+      { name: 'Luminous Hybrid 1.5kva', price: 245000, category: 'Inverters/Controllers', image: 'simple.png'},
+      { name: 'Mercury 2.4kva', price: 190000, category: 'Inverters/Controllers',  image: 'mecury.png' },
+      { name: 'Glow Energy 2.5kva/24v', price: 255000, category: 'Inverters/Controllers' },
+      { name: 'MPPT 60A Controller', price: 50000, category: 'Inverters/Controllers' },
+      { name: 'SRNE 3kva', price: 400000, category: 'Inverters/Controllers' },
+      { name: 'SRNE 5kva', price: 630000, category: 'Inverters/Controllers' },
+      { name: 'SRNE 40a Controller', price: 105000, category: 'Inverters/Controllers' },
+      { name: 'SRNE 60a Controller', price: 150000, category: 'Inverters/Controllers' },
+      { name: 'SMK 3.5kva/24v hybrid', price: 338000, category: 'Inverters/Controllers' },
+      { name: 'Felicity 3kva/48v hybrid', price: 430000, category: 'Inverters/Controllers' },
+      { name: 'Felicity 5kva/48v hybrid', price: 460000, category: 'Inverters/Controllers' },
+      { name: 'Felicity 8kva/48v hybrid', price: 800000, category: 'Inverters/Controllers' },
+      { name: 'Felicity 2.5kva/12v non hybrid', price: 350000, category: 'Inverters/Controllers' },
+      { name: 'Felicity 5kva/48v non hybrid', price: 610000, category: 'Inverters/Controllers' },
+      { name: 'Felicity 100A Mppt', price: 230000, category: 'Inverters/Controllers' },
+      { name: 'SMS 3.6kva/24v', price: 375000, category: 'Inverters/Controllers' },
+      { name: 'SMS 4.2kva/24v', price: 375000, category: 'Inverters/Controllers' },
+      { name: 'SMS 10.2kva/48v', price: 800000, category: 'Inverters/Controllers' },
+      { name: 'SAKO 3kva/24v', price: 300000, category: 'Inverters/Controllers' },
+      { name: 'SAKO 3.5kva/24v', price: 340000, category: 'Inverters/Controllers' },
+      { name: 'PWM Controller 60A', price: 40000, category: 'Inverters/Controllers' },
+
+      // Batteries
+      { name: 'GENUS 230A Tubular', price: 300000, category: 'Batteries' },
+      { name: 'HAUS STROM 220A', price: 250000, category: 'Batteries' },
+      { name: 'LUMINOUS 230Ah Pro Battery', price: 345000, category: 'Batteries' },
+      { name: 'LUMINOUS VOLTCHARGE 220Ah', price: 307000, category: 'Batteries' },
+      { name: 'OZORO 220Ah', price: 285000, category: 'Batteries' },
+      { name: 'Glow Energy 220Ah Battery', price: 270000, category: 'Batteries' },
+
+      // Panels
+      { name: '10w Mono Panel', price: 7000, category: 'Panels' },
+      { name: '12w Mono Panel', price: 10000, category: 'Panels' },
+      { name: '15w Mono Panel', price: 15000, category: 'Panels' },
+      { name: '350w Mono Panel', price: 80000, category: 'Panels' },
+      { name: '450w LONGi Panel', price: 90000, category: 'Panels' },
+      { name: '555w Jinko Bifacial Panel', price: 130000, category: 'Panels' }
+      // Add all your other products here...
+    ];
+
+    const cart = [];
+    let totalPrice = 0;
+
+    const productContainer = document.getElementById('productContainer');
+    const cartIcon = document.getElementById('cartIcon');
+    const cartCount = document.getElementById('cartCount');
+    const cartDropdown = document.getElementById('cartDropdown');
+    const cartItemsList = document.getElementById('cartItemsList');
+    const cartTotal = document.getElementById('cartTotal');
+
+    function createProductCards() {
+      productContainer.innerHTML = '';
+      products.forEach(product => {
+        const productCard = document.createElement('div');
+        productCard.classList.add('product-card');
+        const imageSrc = product.image ? `./image/${product.image}` : './image/default-image.png';
+        productCard.innerHTML = `
+          <img src="${imageSrc}" alt="${product.name}">
+          <div class="product-info">
+            <h3>${product.name}</h3>
+            <p>₦${product.price}</p>
+            <button class="add-to-cart-btn" onclick="addToCart('${product.name}', ${product.price})">Add to Cart</button>
+          </div>
+        `;
+        productContainer.appendChild(productCard);
+      });
+    }
+
+    function addToCart(name, price) {
+      cart.push({ name, price });
+      totalPrice += price;
+      updateCartUI();
+      showPopup();
+    }
+
+    function removeFromCart(index) {
+      totalPrice -= cart[index].price;
+      cart.splice(index, 1);
+      updateCartUI();
+    }
+
+    function updateCartUI() {
+      cartCount.innerText = cart.length;
+      cartItemsList.innerHTML = '';
+      cart.forEach((item, index) => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+          ${item.name} - ₦${item.price}
+          <button onclick="removeFromCart(${index})">X</button>
+        `;
+        cartItemsList.appendChild(li);
+      });
+      cartTotal.innerText = totalPrice;
+      document.getElementById('cartItemsCount').innerText = cart.length;
+      document.getElementById('totalPrice').innerText = `₦${totalPrice}`;
+    }
+
+    cartIcon.addEventListener('click', () => {
+      cartDropdown.style.display = cartDropdown.style.display === 'none' ? 'block' : 'none';
+    });
+
+    function showPopup() {
+      const popup = document.getElementById('popupAlert');
+      popup.classList.add('active');
+      setTimeout(() => popup.classList.remove('active'), 2000);
+    }
+
+    function closePopup() {
+      document.getElementById('popupAlert').classList.remove('active');
+    }
+
+    createProductCards();
+  </script>
+
+</body>
+</html>
